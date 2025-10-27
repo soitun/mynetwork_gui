@@ -1,0 +1,25 @@
+[Unit]
+Description=MyNetwork P2P VPN Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/bin/mynetwork up
+ExecStop=/bin/kill -TERM $MAINPID
+StandardOutput=append:/var/log/mynetwork.log
+StandardError=append:/var/log/mynetwork.log
+Restart=on-failure
+RestartSec=5
+SuccessExitStatus=3 4
+RestartForceExitStatus=3 4
+
+# Hardening
+ProtectSystem=full
+PrivateTmp=true
+SystemCallArchitectures=native
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
